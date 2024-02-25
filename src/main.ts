@@ -1,6 +1,6 @@
 import van from "vanjs-core"
 
-const {a, div, li, p, ul, h5, span} = van.tags
+const {a, div, li, p, ul, h5, h6, span} = van.tags
 const counter = van.state(1)
 
 // Reusable components can be just pure vanilla JavaScript functions.
@@ -14,10 +14,15 @@ const Hello = () => div(
 )
 
 const SinglePageApplication = () => {
+  return Card("Card title", "Card subtitle", "Card text");
+}
 
+const Card = (title: string, subtitle: string, text: string) => {
   return div({class: "card"},
     div({class: "card-body"},
-      h5({class: "card-title"}, span("Card title"))
+      h5({class: "card-title"}, span(title)),
+      h6({class: "card-subtitle text-muted"}, span(subtitle)),
+      p({class: "card-text"}, span(text))
     )
   )
 }
