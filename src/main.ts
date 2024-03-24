@@ -14,9 +14,22 @@ const Hello = () => div(
 )
 
 const SinglePageApplication = () => {
-  return Card("Card title", "Card subtitle", "Card text");
+  document.getElementsByTagName("html")[0].style.height = "100%";
+  document.body.style.height = "100%";
+  document.body.style.display = "flex";
+  document.body.style.alignItems = "center";
+  //return div({class: "text-center"}, Card("Card title", "Card subtitle", "Card text"));
+  return div({style: "width: 100%; max-width: 330px; margin: auto;"}, Card("Card title", "Card subtitle", "Card text"));
 }
 
+
+/**
+ * Generates a new card component.
+ * @param title The card's title.
+ * @param subtitle The card's subtitle.
+ * @param text The card's text.
+ * @returns A new `div`.
+ */
 const Card = (title: string, subtitle: string, text: string) => {
   return div({class: "card"},
     div({class: "card-body"},
