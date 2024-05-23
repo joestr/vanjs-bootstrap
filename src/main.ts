@@ -1,27 +1,45 @@
+import createCone from 'van-cone';
 import van from "vanjs-core"
 
-const {a, div, li, p, ul, h5, h6, span} = van.tags
-const counter = van.state(1)
+const {a, div, li, p, ul, h5, h6, span, hr} = van.tags
 
-// Reusable components can be just pure vanilla JavaScript functions.
-// Here we capitalize the first letter to follow React conventions.
-const Hello = () => div(
+const homePage = () => div(
   p("👋Hello"),
   ul(
     li("🗺️World"),
     li(a({href: "https://vanjs.org/"}, "🍦VanJS")),
   ),
-)
+);
 
-const SinglePageApplication = () => {
+const userPage = (params: {userId: number}) => {
+  
+  //return div({class: "text-center"}, Card("Card title", "Card subtitle", "Card text"));
+  return div({style: "width: 100%; max-width: 330px; margin: auto;"}, Card("Card title" + params.userId, "Card subtitle", "Card text"));
+}
+
+const routerElement = div({ id: 'layout' })
+const { link, route } = createCone({ routerElement: routerElement })
+
+route("home", "/", homePage);
+route("user", "/user/:userId", userPage);
+
+// main app layout
+const App = () => {
   document.getElementsByTagName("html")[0].style.height = "100%";
   document.body.style.height = "100%";
   document.body.style.display = "flex";
   document.body.style.alignItems = "center";
-  //return div({class: "text-center"}, Card("Card title", "Card subtitle", "Card text"));
-  return div({style: "width: 100%; max-width: 330px; margin: auto;"}, Card("Card title", "Card subtitle", "Card text"));
+  
+  return div(
+    {style: "width: 100%; max-width: 330px; margin: auto;"},
+    link({ name: 'home' }, 'Home'),
+    span(' | '),
+    link({name: 'user', params: {userId: 123}}, 'User'),
+    hr(),
+    routerElement
+  );
 }
-
+document.body.replaceChildren(App());
 
 /**
  * Generates a new card component.
@@ -39,7 +57,3 @@ const Card = (title: string, subtitle: string, text: string) => {
     )
   )
 }
-
-van.add(document.body, SinglePageApplication())
-// Alternatively, you can write:
-// document.body.appendChild(Hello())
