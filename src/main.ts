@@ -1,43 +1,87 @@
 import createCone from 'van-cone';
 import van from "vanjs-core"
 
-const {a, div, li, p, ul, h5, h6, span, hr} = van.tags
+import { setCustomStyle, resetCustomStyle } from './utils';
 
-const homePage = () => div(
-  p("👋Hello"),
-  ul(
-    li("🗺️World"),
-    li(a({href: "https://vanjs.org/"}, "🍦VanJS")),
-  ),
-);
+const {a, div, li, p, ul, h5, h6, h2, span, hr, input, label, button, form, img, nav} = van.tags
+const isCustomStyleSet = van.state(false);
+
+const homePage = () => {
+  if (isCustomStyleSet.val === true) {
+    resetCustomStyle(document);
+    isCustomStyleSet.val = false;
+  }
+
+  return nav(
+    {class: "navbar navbar-expand-lg bg-light"},
+    div(
+      {class: "container-fluid"},
+      link({class: "navbar-brand", name: "home"}, "VanJS"),
+      button({class: "navbar-toggler", type: "button", "data-bs-toggle": "collpase", "data-bs-target": "#navbarNav", "aria-controls": "navbarNav", ariaExpanded: true}, span({class: "navbar-toggler-icon"})),
+      div(
+        {class: "collapse navbar-collapse", id: "navbarNav"},
+        ul(
+          {class: "navbar-nav"},
+          li({class: "nav-item"}, link({class: "nav-link active", ariaCurrent: "page", name: "home"}, "Home")),
+          li({class: "nav-item"}, link({class: "nav-link", name: "login"}, "Login"))
+        )
+      )
+    )
+  );
+}
+
+const loginPage = () => {
+  if (isCustomStyleSet.val === false) {
+    setCustomStyle(document);
+    isCustomStyleSet.val = true;
+  }
+
+  return div(
+      img({src: "/logo.svg", width: 128, height: 128, class: "mb-4"}),
+      h2({class: "mb-4"}, "Log in"),
+      form(
+        div(
+          {class: "form-floating mb-4"},
+          input({type: "email", class: "form-control", id: "floatingInputEmail", placeholder: "email@example.com"}),
+          label({htmlFor: "floatingInputEmail"}, "Email Adress")
+        ),
+        div(
+          {class: "form-floating mb-4"},
+          input({type: "password", class: "form-control", id: "floatingPassword", placeholder: "Password"}),
+          label({htmlFor: "floatingPassword"}, "Password")
+        ),
+        button({class:"btn btn-primary", type: "submit"}, "Login")
+      )
+    );
+}
+
+const dashboardPage = () => {
+  if (isCustomStyleSet.val === true) {
+    resetCustomStyle(document);
+    isCustomStyleSet.val = false;
+  }
+}
 
 const userPage = (params: {userId: number}) => {
+  if (isCustomStyleSet.val === true) {
+    resetCustomStyle(document);
+    isCustomStyleSet.val = false;
+  }
   
-  //return div({class: "text-center"}, Card("Card title", "Card subtitle", "Card text"));
-  return div({style: "width: 100%; max-width: 330px; margin: auto;"}, Card("Card title" + params.userId, "Card subtitle", "Card text"));
+  return Card("Card title" + params.userId, "Card subtitle", "Card text");
 }
 
 const routerElement = div({ id: 'layout' })
 const { link, route } = createCone({ routerElement: routerElement })
 
-route("home", "/", homePage);
+route("home", "/", homePage)
+route("login", "/login", loginPage);
+route("dashboard", "/dashboard", dashboardPage);
 route("user", "/user/:userId", userPage);
 
 // main app layout
 const App = () => {
-  document.getElementsByTagName("html")[0].style.height = "100%";
-  document.body.style.height = "100%";
-  document.body.style.display = "flex";
-  document.body.style.alignItems = "center";
-  
-  return div(
-    {style: "width: 100%; max-width: 330px; margin: auto;"},
-    link({ name: 'home' }, 'Home'),
-    span(' | '),
-    link({name: 'user', params: {userId: 123}}, 'User'),
-    hr(),
-    routerElement
-  );
+  return routerElement;
 }
 document.body.replaceChildren(App());
 
