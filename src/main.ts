@@ -42,12 +42,12 @@ const loginPage = () => {
       form(
         div(
           {class: "form-floating mb-4"},
-          input({type: "email", class: "form-control", id: "floatingInputEmail", placeholder: "email@example.com"}),
+          input({type: "email", name: "email", class: "form-control", id: "floatingInputEmail", placeholder: "email@example.com"}),
           label({htmlFor: "floatingInputEmail"}, "Email Adress")
         ),
         div(
           {class: "form-floating mb-4"},
-          input({type: "password", class: "form-control", id: "floatingPassword", placeholder: "Password"}),
+          input({type: "password", name: "password", class: "form-control", id: "floatingPassword", placeholder: "Password"}),
           label({htmlFor: "floatingPassword"}, "Password")
         ),
         button({class:"btn btn-primary", type: "submit"}, "Login")
