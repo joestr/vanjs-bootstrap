@@ -50,7 +50,7 @@ const loginPage = () => {
           input({type: "password", name: "password", class: "form-control", id: "floatingPassword", placeholder: "Password"}),
           label({htmlFor: "floatingPassword"}, "Password")
         ),
-        button({class:"btn btn-primary", type: "submit"}, "Login")
+        button({class:"btn btn-primary", type: "submit", formMethod: "GET"}, "Login")
       )
     );
 }
