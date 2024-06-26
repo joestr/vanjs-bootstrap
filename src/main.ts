@@ -3,7 +3,7 @@ import van from "vanjs-core"
 
 import { setCustomStyle, resetCustomStyle } from './utils';
 
-const {a, div, li, p, ul, h5, h6, h2, span, hr, input, label, button, form, img, nav} = van.tags
+const {div, li, p, ul, h5, h6, h2, span, input, label, button, form, img, nav} = van.tags
 const isCustomStyleSet = van.state(false);
 
 const homePage = () => {
